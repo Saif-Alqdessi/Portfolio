@@ -1,0 +1,32 @@
+SAIF ALQDESSI
+LinkedIn | Amman - Jordan | +962 795148037 | alqdessi.qp@gmail.com | GitHub
+P R O F E S S I O N A L S U M M A R Y	
+AI Systems & Agent Engineer focused on transforming operational bottlenecks into autonomous end-to-end AI solutions. Expert in designing intelligent agents, real-time web integrations, and automated workflows that replace manual processes with scalable AI architectures.
+S K I L L S	
+ Agentic AI & Orchestration: LangGraph, LangChain, Multi-Agent Systems (MAS), Tool Use/Function Calling, Autonomous Task Planning.
+ AI Engineering & Backend: FastAPI, Python (Advanced Async), Real-time WebSockets, RESTful API Design, Middleware & Security (CORS).
+ Core AI & Machine Learning: PyTorch, TensorFlow, Scikit-learn, Model Fine-tuning, Deep Learning Architectures, Neural Networks, RAG Optimization
+Development & Tools: API Integration, n8n Automation, Git & GitHub, OpenCV, Cursor, Supabase, SQL Soft Skills:  Leadership, Strategic Planning, Event Management, Problem-Solving, Public Speaking. Languages: Arabic, Native | English, Upper Intermediate
+P R O J E C T S	
+Smart Event System – Face Recognition & Automation	Python, InsightFace, OpenCV
+ Developed an AI-based system for real-time face recognition and automated photo sorting for large-scale events, reducing manual processing time by 95%.
+Customer Churn Prediction Python, SQL, XGBoost
+		Developed classification models to predict customer churn and extract actionable insights for retention strategies.
+CNN-based leaf disease recognition system Python, TensorFlow, Keras, CNNs
+		achieving high accuracy in classifying plant health conditions and suggesting treatments.
+API-Based Data Pipeline for Weather Forecasting Python, REST APIs, SQL
+		Automated a pipeline to fetch, process, and visualize real-time weather data for local activity planning.
+E D U C A T I O N 
+Bachelor's Degree in Artificial Intelligence and Data Science
+ Tafila Technical University, Jordan	2021 - 2025 C O U R S E S A N D C E R T I F I C A T E S 
+	Machine Learning & Big Data Analytics - Udemy.	Agent-Based Systems & Intelligent Agents– Practical
+Training
+Python 100 Days of Code – Udemy
+                                                            IBM Data Analyst Professional Certificate - IBM Skills AI Automation & n8n – Hands-on Training/ Youtube Network
+V O L U N T E E R I N G  E X P E R I E N C E	
+Founder & Chairman	IEEE Computer Society – Tafila Technical University	Feb 2024- Aug 2025
+		Led a team of 30+ volunteers, managing technical events, workshops, and strategic planning initiatives.
+Chairman	IMPACT Conference	Oct 2024- Apr 2025
+ Founded and led a regional technology conference focused on AI, Metaverse, and XR technologies, managing 300+ participants and securing partnerships with the Ministry of Digital Economy.
+Ambassador 	IEEE Region 8 Entrepreneurship	Jan 2023 - Jan 2024
+Led the PITCHINNO Entrepreneurship Competition and awarded Best Ambassador 2023 for regional impact and innovation leadership.
