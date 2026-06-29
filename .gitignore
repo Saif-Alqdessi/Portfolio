@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+ECHO is on.
+# next
+.next/
+out/
+ECHO is on.
+# env
+.env
+.env.local
+.env.*.local
+ECHO is on.
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+ECHO is on.
+# OS / editor
+.DS_Store
+Thumbs.db
+ECHO is on.
+# supabase temp
+supabase/.temp/
+ECHO is on.
+# archives
+*.rar
+*.zip
+*.7z
+ECHO is on.
+# cache
+.turbo/
+.cache/
