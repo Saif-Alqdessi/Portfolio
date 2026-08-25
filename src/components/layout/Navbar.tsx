@@ -37,14 +37,7 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-4 z-50 px-4 sm:top-6">
       {/* Desktop: centred pill */}
-      <nav className="glass mx-auto hidden h-12 w-fit items-center gap-8 rounded-full pl-6 pr-3 md:flex">
-        <Link
-          href="/"
-          className="text-sm font-semibold tracking-tight text-text-primary transition-colors hover:text-accent-purple"
-        >
-          Saif Alqdessi
-        </Link>
-        <div className="h-5 w-px bg-foreground/10" aria-hidden="true" />
+      <nav className="glass mx-auto hidden h-12 w-fit items-center gap-8 rounded-full pl-8 pr-3 md:flex">
         {NAV_LINKS.map(({ label, href }) => (
           <Link
             key={href}
@@ -58,15 +51,8 @@ export function Navbar() {
         <ThemeToggle />
       </nav>
 
-      {/* Mobile: brand + controls bar */}
-      <div className="glass flex h-14 items-center justify-between rounded-full pl-5 pr-2 md:hidden">
-        <Link
-          href="/"
-          className="-my-2 inline-flex min-h-[2.75rem] items-center text-sm font-semibold tracking-tight text-text-primary"
-          onClick={() => setOpen(false)}
-        >
-          Saif Alqdessi
-        </Link>
+      {/* Mobile: controls bar */}
+      <div className="glass ml-auto flex h-14 w-fit items-center justify-end rounded-full pr-2 md:hidden">
         <div className="flex items-center gap-1">
           <ThemeToggle />
           <button
@@ -106,10 +92,7 @@ export function Navbar() {
               transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
               aria-label="Site"
             >
-              <div className="flex items-center justify-between pb-2 pl-3">
-                <span className="text-sm font-semibold tracking-tight text-text-primary">
-                  Saif Alqdessi
-                </span>
+              <div className="flex items-center justify-end pb-2">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
