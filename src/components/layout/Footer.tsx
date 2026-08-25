@@ -35,14 +35,10 @@ const EXPLORE_LINKS = [
 const CONNECT_PLATFORMS = ['linkedin', 'github']
 
 export async function Footer() {
-  let name = 'Saif Alqdessi'
   let links: SocialLink[] = FALLBACK_LINKS
 
   try {
     const supabase = await createClient()
-
-    const { data: profile } = (await supabase.from('profile').select('name').single()) as any
-    if (profile?.name) name = profile.name
 
     const { data: socialLinks, error } = await supabase
       .from('links')
@@ -150,14 +146,10 @@ export async function Footer() {
           </div>
         </ScrollReveal>
 
-        {/* Identity + copyright */}
-        <div className="mt-16 flex flex-col gap-3 border-t border-foreground/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-text-secondary">
-            <span className="font-semibold text-text-primary">{name}</span>
-            <span className="text-text-muted">, AI Engineer</span>
-          </p>
+        {/* Copyright */}
+        <div className="mt-16 flex flex-col items-center border-t border-foreground/10 pt-8 text-center">
           <p className="font-mono text-xs text-text-muted">
-            © {year} {name} • Built and maintained by me
+            © {year} • Built and maintained by me
           </p>
         </div>
       </div>
