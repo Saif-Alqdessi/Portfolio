@@ -22,7 +22,7 @@ export function SelectChip({ label, selected = false, onClick, className }: Sele
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-medium border transition-all duration-200',
+        'inline-flex min-h-[2.75rem] items-center gap-1.5 rounded-full border px-4 text-xs font-mono font-medium transition-all duration-200 sm:min-h-[2rem] sm:px-3',
         selected
           ? 'border-accent-cyan bg-accent-cyan text-bg-base shadow-glow-cyan'
           : 'border-accent-cyan/25 text-accent-cyan bg-accent-cyan-glow hover:border-accent-cyan/50 hover:bg-accent-cyan/10',

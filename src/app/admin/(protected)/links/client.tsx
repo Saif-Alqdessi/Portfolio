@@ -37,7 +37,7 @@ export function LinksClient({ links }: Props) {
   return (
     <>
       {links.map((link) => (
-        <tr key={link.id} className="hover:bg-white/5 transition-colors">
+        <tr key={link.id} className="hover:bg-foreground/5 transition-colors">
           <td className="px-4 py-3">
             <span className="text-text-primary text-sm font-medium">{link.platform}</span>
           </td>
@@ -61,7 +61,7 @@ export function LinksClient({ links }: Props) {
               <button
                 onClick={() => handleDelete(link.id, link.platform)}
                 disabled={deleting === link.id}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-text-secondary border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-text-secondary border border-foreground/10 bg-foreground/5 hover:bg-foreground/10 disabled:opacity-50 transition-colors"
               >
                 <Trash2 size={12} />
                 {deleting === link.id ? 'Deleting...' : 'Delete'}

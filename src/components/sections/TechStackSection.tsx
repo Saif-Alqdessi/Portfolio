@@ -1,100 +1,99 @@
-import { createClient } from '@/lib/supabase/server'
-import { SectionHeader } from '@/components/ui/SectionHeader'
-import { GlassCard } from '@/components/ui/GlassCard'
+import type { IconType } from 'react-icons'
+import {
+  SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiPython, SiPytorch,
+  SiTensorflow, SiLangchain, SiLanggraph, SiHuggingface, SiAnthropic, SiFastapi,
+  SiNodedotjs, SiPostgresql, SiSupabase, SiRedis, SiDocker, SiGit, SiLinux,
+  SiVercel, SiN8N, SiZapier, SiExpress, SiJupyter,
+} from 'react-icons/si'
+import { TbBrandOpenai, TbBrandAws } from 'react-icons/tb'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
-import type { Database } from '@/lib/supabase/types'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import { cn } from '@/lib/utils'
 
-type SkillRow = Database['public']['Tables']['skills']['Row']
-
-const normalizeItems = (v: unknown): string[] => {
-  if (Array.isArray(v)) return v.filter(Boolean).map(String)
-  if (typeof v === 'string') {
-    const s = v.trim()
-    if (!s) return []
-    try {
-      const parsed = JSON.parse(s)
-      return Array.isArray(parsed) ? parsed.filter(Boolean).map(String) : []
-    } catch {
-      // if it's a comma-separated string fallback:
-      return s.split(',').map(x => x.trim()).filter(Boolean)
-    }
-  }
-  return []
-}
-
-interface SkillCategory {
+interface TechItem {
   name: string
-  color: 'cyan' | 'purple'
-  items: string[]
-  sort_order: number
+  Icon: IconType
 }
 
-const FALLBACK_CATEGORIES: SkillCategory[] = [
-  {
-    name: 'AI & Machine Learning',
-    color: 'cyan',
-    items: ['Python', 'PyTorch', 'TensorFlow', 'LangChain', 'LangGraph', 'Hugging Face', 'OpenAI API', 'Anthropic Claude'],
-    sort_order: 0
-  },
-  {
-    name: 'Backend & APIs',
-    color: 'purple',
-    items: ['FastAPI', 'Node.js', 'Express', 'PostgreSQL', 'Supabase', 'Redis', 'WebSockets', 'REST APIs'],
-    sort_order: 1
-  },
-  {
-    name: 'Frontend & UI',
-    color: 'cyan',
-    items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel', 'Responsive Design'],
-    sort_order: 2
-  },
-  {
-    name: 'Data & Analytics',
-    color: 'purple',
-    items: ['Pandas', 'NumPy', 'SQL', 'Data Pipelines', 'ETL', 'Jupyter', 'Matplotlib', 'Seaborn'],
-    sort_order: 3
-  },
-  {
-    name: 'DevOps & Tools',
-    color: 'cyan',
-    items: ['Git', 'Docker', 'Linux', 'AWS', 'CI/CD', 'Monitoring', 'Testing', 'Deployment'],
-    sort_order: 4
-  },
-  {
-    name: 'Automation & Integration',
-    color: 'purple',
-    items: ['n8n', 'Zapier', 'Workflow Automation', 'API Integration', 'Webhooks', 'Cron Jobs', 'Event-Driven Architecture'],
-    sort_order: 5
-  }
+// Curated to match the real, verified skill set (see the "skills" content
+// used elsewhere on the site) — not every logo-able brand exists in either
+// icon pack, and a couple of items from the original brief (Google Gemini,
+// Google Cloud, Azure, MongoDB, GraphQL, Prisma) aren't part of the real
+// skill list, so they're swapped for verified ones instead of shown as-is.
+const ROW_1: TechItem[] = [
+  { name: 'Next.js', Icon: SiNextdotjs },
+  { name: 'React', Icon: SiReact },
+  { name: 'TypeScript', Icon: SiTypescript },
+  { name: 'Tailwind CSS', Icon: SiTailwindcss },
+  { name: 'Python', Icon: SiPython },
+  { name: 'PyTorch', Icon: SiPytorch },
+  { name: 'TensorFlow', Icon: SiTensorflow },
+  { name: 'LangChain', Icon: SiLangchain },
+  { name: 'LangGraph', Icon: SiLanggraph },
+  { name: 'Hugging Face', Icon: SiHuggingface },
+  { name: 'OpenAI', Icon: TbBrandOpenai },
+  { name: 'Anthropic Claude', Icon: SiAnthropic },
+  { name: 'FastAPI', Icon: SiFastapi },
 ]
 
-export async function TechStackSection() {
-  let categories: SkillCategory[] = FALLBACK_CATEGORIES
+const ROW_2: TechItem[] = [
+  { name: 'Node.js', Icon: SiNodedotjs },
+  { name: 'PostgreSQL', Icon: SiPostgresql },
+  { name: 'Supabase', Icon: SiSupabase },
+  { name: 'Redis', Icon: SiRedis },
+  { name: 'Docker', Icon: SiDocker },
+  { name: 'Git', Icon: SiGit },
+  { name: 'Linux', Icon: SiLinux },
+  { name: 'AWS', Icon: TbBrandAws },
+  { name: 'Vercel', Icon: SiVercel },
+  { name: 'n8n', Icon: SiN8N },
+  { name: 'Zapier', Icon: SiZapier },
+  { name: 'Express', Icon: SiExpress },
+  { name: 'Jupyter', Icon: SiJupyter },
+]
 
-  try {
-    const supabase = await createClient()
-    const { data } = await (supabase
-      .from('skills') as any)
-      .select('category, items, sort_order')
-      .order('sort_order')
-    
-    const skillRows = data as SkillRow[] | null
-    if (skillRows && skillRows.length > 0) {
-      categories = skillRows.map((skill, i) => ({
-        name: skill.category,
-        color: (i % 2 === 0 ? 'cyan' : 'purple') as 'cyan' | 'purple',
-        items: normalizeItems(skill.items),
-        sort_order: skill.sort_order
-      }))
-    }
-  } catch {
-    // fallback active
-  }
-
+function TechItemCard({ item, ariaHidden }: { item: TechItem; ariaHidden?: boolean }) {
+  const { Icon, name } = item
   return (
-    <section id="stack" className="py-24 sm:py-32">
-      <div className="max-w-6xl mx-auto px-6 space-y-16">
-        
+    <div
+      className="group flex w-20 flex-shrink-0 flex-col items-center gap-3 border-none bg-transparent p-0"
+      aria-hidden={ariaHidden || undefined}
+    >
+      <Icon
+        size={32}
+        className="text-zinc-600 transition-all duration-200 group-hover:scale-110 group-hover:text-zinc-900 dark:text-zinc-400 dark:group-hover:text-white"
+      />
+      <span className="text-center text-[10px] font-mono tracking-widest text-zinc-500 transition-colors duration-200 group-hover:text-zinc-900 dark:text-zinc-400 dark:group-hover:text-zinc-200">
+        {name}
+      </span>
+    </div>
+  )
+}
+
+function MarqueeRow({ items, direction }: { items: TechItem[]; direction: 'left' | 'right' }) {
+  return (
+    <div className="overflow-hidden">
+      <div
+        className={cn(
+          'flex w-max items-center gap-10 hover:[animation-play-state:paused] motion-reduce:[animation-play-state:paused]',
+          direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'
+        )}
+      >
+        {items.map((item) => (
+          <TechItemCard key={item.name} item={item} />
+        ))}
+        {items.map((item) => (
+          <TechItemCard key={`${item.name}-dup`} item={item} ariaHidden />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function TechStackSection() {
+  return (
+    <section id="stack" className="overflow-hidden py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal direction="up">
           <SectionHeader
             label="Technologies"
@@ -103,40 +102,17 @@ export async function TechStackSection() {
             align="center"
           />
         </ScrollReveal>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category, i) => (
-            <ScrollReveal key={category.name} delay={i * 80}>
-              <GlassCard variant="default" className="h-full">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <h3 className={`font-semibold text-base ${
-                      category.color === 'cyan' ? 'text-accent-cyan' : 'text-accent-purple'
-                    }`}>
-                      {category.name}
-                    </h3>
-                    <div className={`h-0.5 w-12 rounded-full ${
-                      category.color === 'cyan' ? 'bg-accent-cyan' : 'bg-accent-purple'
-                    }`} />
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-2">
-                    {category.items.map((item) => (
-                      <div
-                        key={item}
-                        className="text-text-secondary text-sm py-1.5 px-2 rounded-lg bg-bg-surface/60 border border-white/5 hover:border-white/10 transition-colors"
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </GlassCard>
-            </ScrollReveal>
-          ))}
-        </div>
-
       </div>
+
+      <ScrollReveal direction="up" delay={100} className="relative mt-16">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
+
+        <div className="space-y-8">
+          <MarqueeRow items={ROW_1} direction="left" />
+          <MarqueeRow items={ROW_2} direction="right" />
+        </div>
+      </ScrollReveal>
     </section>
   )
 }

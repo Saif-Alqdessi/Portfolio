@@ -61,7 +61,7 @@ export async function ProjectsSection() {
                   <div className={`relative md:w-[38%] h-52 md:h-auto flex-shrink-0 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} flex items-center justify-center`}>
                     {p.image_url
                       ? <Image src={p.image_url} alt={p.title} fill className="object-cover" />
-                      : <Folder size={40} strokeWidth={1} className="text-white/15" />}
+                      : <Folder size={40} strokeWidth={1} className="text-foreground/15" />}
                     {p.featured && (
                       <span className="absolute top-3 left-3 text-[10px] font-mono font-semibold tracking-widest uppercase px-2 py-1 rounded bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30">
                         Featured

@@ -9,13 +9,22 @@ import { Upload, Trash2, FileText, User } from 'lucide-react'
 interface Profile {
   id: string
   summary: string
-  highlights: string[]
+  bio?: string | null
+  highlights: unknown
   cv_url?: string | null
   photo_url?: string | null
 }
 
-const inputCls = 'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-white/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
+const inputCls = 'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-foreground/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
 const labelCls = 'block text-xs font-medium text-text-secondary mb-1.5'
+
+// `highlights` is a jsonb column, so it can come back as a string array,
+// or (if past data ever got miswritten) a raw string. Never assume the shape.
+function toHighlightsText(highlights: unknown): string {
+  if (Array.isArray(highlights)) return highlights.map(String).join('\n')
+  if (typeof highlights === 'string') return highlights
+  return ''
+}
 
 export function ProfileClient({ profile }: { profile: Profile | null }) {
   const router = useRouter()
@@ -61,15 +70,31 @@ export function ProfileClient({ profile }: { profile: Profile | null }) {
         <p className="text-text-muted text-sm mt-1">Edit your public bio and uploads.</p>
       </div>
 
-      {/* Summary */}
+      {/* Summary — the Hero pitch */}
       <div>
-        <label className={labelCls}>Bio / Summary</label>
+        <label className={labelCls}>
+          Hero pitch <span className="text-text-muted font-normal">(shown on the homepage, written to the visitor)</span>
+        </label>
         <textarea
           name="summary"
           required
-          rows={5}
+          rows={3}
           defaultValue={profile?.summary ?? ''}
-          placeholder="Write your professional summary…"
+          placeholder="Stop wasting time on repetitive tasks…"
+          className={`${inputCls} resize-none`}
+        />
+      </div>
+
+      {/* Bio — the About page */}
+      <div>
+        <label className={labelCls}>
+          About me <span className="text-text-muted font-normal">(shown on /about, written about you. Blank line starts a new paragraph.)</span>
+        </label>
+        <textarea
+          name="bio"
+          rows={7}
+          defaultValue={profile?.bio ?? ''}
+          placeholder="I build AI systems that take over work people are currently doing by hand…"
           className={`${inputCls} resize-none`}
         />
       </div>
@@ -80,8 +105,8 @@ export function ProfileClient({ profile }: { profile: Profile | null }) {
         <textarea
           name="highlights_text"
           rows={4}
-          defaultValue={(profile?.highlights ?? []).join('\n')}
-          placeholder={'IEEE Best Ambassador 2023\nConference Chair — 300+ attendees'}
+          defaultValue={toHighlightsText(profile?.highlights)}
+          placeholder={'IEEE Best Ambassador 2023\nConference Chair, 300+ attendees'}
           className={`${inputCls} resize-none font-mono text-xs`}
         />
       </div>
@@ -107,7 +132,7 @@ export function ProfileClient({ profile }: { profile: Profile | null }) {
           ) : (
             <div
               onClick={() => cvRef.current?.click()}
-              className="h-20 border-2 border-dashed border-white/15 rounded-lg flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-accent-cyan/40 transition-colors"
+              className="h-20 border-2 border-dashed border-foreground/15 rounded-lg flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-accent-cyan/40 transition-colors"
             >
               <Upload size={16} className="text-text-muted" />
               <span className="text-text-muted text-xs">Click to upload PDF / DOCX</span>
@@ -126,7 +151,7 @@ export function ProfileClient({ profile }: { profile: Profile | null }) {
           {photoPreview && !removePhoto ? (
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={photoPreview} alt="Profile" className="w-12 h-12 rounded-full object-cover border border-white/10 flex-shrink-0" />
+              <img src={photoPreview} alt="Profile" className="w-12 h-12 rounded-full object-cover border border-foreground/10 flex-shrink-0" />
               <span className="text-text-secondary text-xs flex-1 truncate">{photoPreview.split('/').pop()}</span>
               <button
                 type="button"
@@ -139,7 +164,7 @@ export function ProfileClient({ profile }: { profile: Profile | null }) {
           ) : (
             <div
               onClick={() => photoRef.current?.click()}
-              className="h-20 border-2 border-dashed border-white/15 rounded-lg flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-accent-cyan/40 transition-colors"
+              className="h-20 border-2 border-dashed border-foreground/15 rounded-lg flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-accent-cyan/40 transition-colors"
             >
               <User size={16} className="text-text-muted" />
               <span className="text-text-muted text-xs">Click to upload photo</span>

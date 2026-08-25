@@ -30,9 +30,7 @@ export async function upsertProfile(
   const supabase = await createClient()
 
   const highlightsRaw = (formData.get('highlights_text') as string) ?? ''
-  const highlights = JSON.stringify(
-    highlightsRaw.split('\n').map(l => l.trim()).filter(Boolean)
-  )
+  const highlights = highlightsRaw.split('\n').map(l => l.trim()).filter(Boolean)
 
   const existingCvUrl   = (formData.get('current_cv_url')    as string) || null
   const existingPhotoUrl= (formData.get('current_photo_url') as string) || null
@@ -60,6 +58,7 @@ export async function upsertProfile(
 
   const payload = {
     summary: (formData.get('summary') as string).trim(),
+    bio: ((formData.get('bio') as string) ?? '').trim() || null,
     highlights,
     updated_at: new Date().toISOString(),
     cv_url: cvUrl,
@@ -79,5 +78,6 @@ export async function upsertProfile(
 
   revalidatePath('/admin/profile')
   revalidatePath('/')
+  revalidatePath('/about')
   return warnings.length ? { bucketWarning: warnings.join(' ') } : {}
 }

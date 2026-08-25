@@ -77,7 +77,7 @@ export async function AboutSection() {
               {FEATURE_TAGS.map(({ label, Icon, color }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl border border-white/8 bg-bg-surface/60 text-sm text-text-secondary"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl border border-foreground/8 bg-bg-surface/60 text-sm text-text-secondary"
                 >
                   <Icon
                     size={14}

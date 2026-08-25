@@ -13,11 +13,11 @@ const FALLBACK_STATS: StatRow[] = [
   { id: '4', label: 'Conference Participants', value: 300, prefix: '', suffix: '+', sort_order: 3 },
 ]
 
-const ICON_META: { iconName: string; color: 'cyan' | 'purple'; description: string }[] = [
-  { iconName: 'briefcase', color: 'cyan',   description: 'Real-world AI deployments' },
-  { iconName: 'award',     color: 'cyan',   description: 'LLM apps, RAG & intelligent workflows'    },
-  { iconName: 'users',     color: 'purple', description: 'Industry-recognized credentials'    },
-  { iconName: 'building2', color: 'purple', description: 'Large-scale tech events & workshops'           },
+const ICON_META: { iconName: string; description: string }[] = [
+  { iconName: 'briefcase', description: 'Shipped and running in production' },
+  { iconName: 'brain',     description: 'Agents, RAG pipelines, and LLM apps' },
+  { iconName: 'award',     description: 'AI, ML, and cloud coursework' },
+  { iconName: 'users',     description: 'Conferences, workshops, and meetups' },
 ]
 
 export async function TrackRecordSection() {
@@ -42,11 +42,11 @@ export async function TrackRecordSection() {
         <SectionHeader
           label="By the Numbers"
           title="Track Record"
-          subtitle="Proven expertise in delivering AI solutions that create real impact."
+          subtitle="What I've shipped, earned, and organised so far."
           align="center"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, i) => {
             const meta = ICON_META[i] ?? ICON_META[0]
             return (
@@ -58,7 +58,6 @@ export async function TrackRecordSection() {
                 label={stat.label}
                 description={meta.description}
                 iconName={meta.iconName}
-                color={meta.color}
                 delay={i * 120}
               />
             )

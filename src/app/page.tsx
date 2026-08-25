@@ -1,9 +1,6 @@
 import { HeroSection }               from '@/components/sections/HeroSection'
 import { TrackRecordSection }        from '@/components/sections/TrackRecordSection'
-import { AboutSection }              from '@/components/sections/AboutSection'
 import { WhatIDoSection }            from '@/components/sections/WhatIDoSection'
-import { ProjectsSection }           from '@/components/sections/ProjectsSection'
-import { EngineeringApproachSection} from '@/components/sections/EngineeringApproachSection'
 import { TechStackSection }          from '@/components/sections/TechStackSection'
 import { InquirySection }            from '@/components/sections/InquirySection'
 
@@ -12,10 +9,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <TrackRecordSection />
-      <AboutSection />
       <WhatIDoSection />
-      <ProjectsSection />
-      <EngineeringApproachSection />
       <TechStackSection />
       <InquirySection />
     </main>

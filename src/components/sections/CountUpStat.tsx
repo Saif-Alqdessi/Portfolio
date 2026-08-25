@@ -1,17 +1,15 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Briefcase, Award, Users, Building2 } from 'lucide-react'
+import { Briefcase, Award, Users, BookOpen, BrainCircuit } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { GlassCard } from '@/components/ui/GlassCard'
-import { NeonIcon } from '@/components/ui/NeonIcon'
-import { cn } from '@/lib/utils'
 
 const ICON_MAP: Record<string, LucideIcon> = {
   briefcase: Briefcase,
   award:     Award,
   users:     Users,
-  building2: Building2,
+  bookopen:  BookOpen,
+  brain:     BrainCircuit,
 }
 
 interface CountUpStatProps {
@@ -21,7 +19,6 @@ interface CountUpStatProps {
   label: string
   description: string
   iconName: string
-  color: 'cyan' | 'purple'
   delay?: number
 }
 
@@ -32,10 +29,9 @@ export function CountUpStat({
   label,
   description,
   iconName,
-  color,
   delay = 0,
 }: CountUpStatProps) {
-  const icon = ICON_MAP[iconName] ?? Briefcase
+  const Icon = ICON_MAP[iconName] ?? Briefcase
   const [count, setCount] = useState(0)
   const [triggered, setTriggered] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -74,25 +70,31 @@ export function CountUpStat({
   }, [triggered, value, delay])
 
   return (
-    <div ref={ref}>
-      <GlassCard
-        variant="default"
-        className="h-full flex flex-col items-center text-center gap-5 py-8 px-5 hover:border-white/10 hover:-translate-y-1 transition-transform duration-300"
-      >
-        <NeonIcon icon={icon as LucideIcon} size="md" color={color} />
+    <div
+      ref={ref}
+      className="group relative overflow-hidden rounded-2xl border border-foreground/8 bg-gradient-to-b from-bg-surface/80 to-bg-surface/30 p-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:border-accent-purple/25"
+    >
+      {/* Ambient glow, clipped to the card so it reads as light from within, not a floating blob */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-16 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-accent-purple/25 opacity-0 blur-3xl transition-opacity duration-700 ease-out group-hover:opacity-100"
+      />
+
+      <div className="relative space-y-5">
+        <Icon
+          size={18}
+          strokeWidth={1.5}
+          className="text-text-muted transition-colors duration-500 group-hover:text-accent-purple/70"
+        />
+
         <div className="space-y-1.5">
-          <p
-            className={cn(
-              'text-4xl sm:text-5xl font-bold font-mono tabular-nums',
-              color === 'cyan' ? 'text-accent-cyan' : 'text-accent-purple'
-            )}
-          >
+          <p className="font-mono text-5xl font-semibold tabular-nums tracking-tight text-accent-purple [text-shadow:0_0_24px_rgba(245,158,11,0)] transition-[text-shadow] duration-500 ease-out group-hover:[text-shadow:0_0_24px_rgba(245,158,11,0.35)] sm:text-6xl">
             {prefix}{count}{suffix}
           </p>
-          <p className="text-text-primary font-semibold text-sm sm:text-base">{label}</p>
-          <p className="text-text-muted text-xs sm:text-sm leading-snug">{description}</p>
+          <p className="text-sm font-semibold text-text-primary">{label}</p>
+          <p className="text-xs leading-relaxed text-text-muted">{description}</p>
         </div>
-      </GlassCard>
+      </div>
     </div>
   )
 }

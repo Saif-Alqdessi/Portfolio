@@ -53,7 +53,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-white/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted"
+                className="w-full min-h-[2.75rem] px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-foreground/10 text-text-primary text-base sm:text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted"
               />
             </div>
 
@@ -66,7 +66,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-white/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted"
+                className="w-full min-h-[2.75rem] px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-foreground/10 text-text-primary text-base sm:text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted"
               />
             </div>
 
@@ -79,7 +79,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-4 rounded-lg bg-accent-cyan text-bg-base font-semibold text-sm hover:bg-accent-cyan/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full min-h-[2.75rem] py-2.5 px-4 rounded-lg bg-accent-cyan text-bg-base font-semibold text-sm hover:bg-accent-cyan/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {loading ? 'Signing in…' : 'Sign In'}
             </button>

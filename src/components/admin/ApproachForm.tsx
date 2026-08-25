@@ -13,7 +13,7 @@ interface Props {
   approach?: Approach
 }
 
-const inputCls = 'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-white/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
+const inputCls = 'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-foreground/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
 const labelCls = 'block text-xs font-medium text-text-secondary mb-1.5'
 
 export function ApproachForm({ approach }: Props) {
@@ -50,7 +50,7 @@ export function ApproachForm({ approach }: Props) {
         onClick={() => setOpen(true)}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
           isEdit
-            ? 'text-text-secondary border border-white/10 bg-white/5 hover:bg-white/10'
+            ? 'text-text-secondary border border-foreground/10 bg-foreground/5 hover:bg-foreground/10'
             : 'text-bg-base bg-accent-cyan hover:bg-accent-cyan/90'
         }`}
       >
@@ -107,7 +107,7 @@ export function ApproachForm({ approach }: Props) {
               type="checkbox"
               id="is_active"
               defaultChecked={approach?.is_active ?? false}
-              className="w-4 h-4 rounded border border-white/10 bg-bg-surface/80 text-accent-cyan focus:ring-accent-cyan/50"
+              className="w-4 h-4 rounded border border-foreground/10 bg-bg-surface/80 text-accent-cyan focus:ring-accent-cyan/50"
             />
             <label htmlFor="is_active" className="text-sm text-text-secondary">
               Mark as active step
@@ -137,7 +137,7 @@ export function ApproachForm({ approach }: Props) {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="flex-1 px-4 py-2.5 rounded-lg border border-white/10 text-text-secondary text-sm hover:bg-white/5 transition-colors"
+              className="flex-1 px-4 py-2.5 rounded-lg border border-foreground/10 text-text-secondary text-sm hover:bg-foreground/5 transition-colors"
             >
               Cancel
             </button>

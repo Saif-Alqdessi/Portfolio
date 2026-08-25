@@ -105,14 +105,14 @@ export async function POST(request: Request) {
   const html = `
 <!DOCTYPE html>
 <html lang="en">
-  <body style="margin:0;padding:0;background-color:#020617;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#020617;">
+  <body style="margin:0;padding:0;background-color:#0c0a09;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0c0a09;">
       <tr>
         <td align="center" style="padding:32px 16px;">
-          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#0f172a;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#1c1917;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;">
             <tr>
               <td style="padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.08);">
-                <p style="margin:0 0 4px;font-family:Inter,Arial,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#06b6d4;font-weight:600;">New Inquiry</p>
+                <p style="margin:0 0 4px;font-family:Inter,Arial,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#f97316;font-weight:600;">New Inquiry</p>
                 <h1 style="margin:0;font-family:Inter,Arial,sans-serif;font-size:22px;color:#f8fafc;font-weight:700;">Project Inquiry from ${escapeHtml(payload.name)}</h1>
               </td>
             </tr>
@@ -124,7 +124,7 @@ export async function POST(request: Request) {
             <tr>
               <td style="padding:0 32px 32px;">
                 <p style="margin:0 0 6px;font-family:Inter,Arial,sans-serif;font-size:13px;color:#94a3b8;">Primary business challenge</p>
-                <p style="margin:0;padding:16px;background-color:#1e293b;border:1px solid rgba(255,255,255,0.06);border-radius:12px;font-family:Inter,Arial,sans-serif;font-size:14px;color:#f8fafc;line-height:1.6;white-space:pre-wrap;">${escapeHtml(payload.challenge)}</p>
+                <p style="margin:0;padding:16px;background-color:#292524;border:1px solid rgba(255,255,255,0.06);border-radius:12px;font-family:Inter,Arial,sans-serif;font-size:14px;color:#f8fafc;line-height:1.6;white-space:pre-wrap;">${escapeHtml(payload.challenge)}</p>
               </td>
             </tr>
           </table>

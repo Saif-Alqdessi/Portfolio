@@ -33,7 +33,7 @@ export function ApproachClient({ approaches }: Props) {
   return (
     <>
       {approaches.map((approach) => (
-        <tr key={approach.id} className="hover:bg-white/5 transition-colors">
+        <tr key={approach.id} className="hover:bg-foreground/5 transition-colors">
           <td className="px-4 py-3">
             <span className="text-text-primary text-sm font-mono font-bold">
               {String(approach.step_number).padStart(2, '0')}
@@ -49,7 +49,7 @@ export function ApproachClient({ approaches }: Props) {
             <span className={`px-2 py-0.5 rounded text-xs font-medium ${
               approach.is_active 
                 ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20' 
-                : 'bg-white/5 text-text-muted border border-white/10'
+                : 'bg-foreground/5 text-text-muted border border-foreground/10'
             }`}>
               {approach.is_active ? 'Active' : 'Inactive'}
             </span>
@@ -63,7 +63,7 @@ export function ApproachClient({ approaches }: Props) {
               <button
                 onClick={() => handleDelete(approach.id)}
                 disabled={deleting === approach.id}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-text-secondary border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-text-secondary border border-foreground/10 bg-foreground/5 hover:bg-foreground/10 disabled:opacity-50 transition-colors"
               >
                 <Trash2 size={12} />
                 {deleting === approach.id ? 'Deleting...' : 'Delete'}

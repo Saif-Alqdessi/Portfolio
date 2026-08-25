@@ -10,8 +10,10 @@ import { NeonIcon } from '@/components/ui/NeonIcon'
 import { SelectChip } from '@/components/ui/SelectChip'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
+// text-base (16px) on mobile is mandatory: anything smaller makes iOS Safari
+// zoom the viewport on focus. Drops to 14px from sm: upward.
 const inputCls =
-  'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-white/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
+  'w-full min-h-[2.75rem] px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-foreground/10 text-text-primary text-base sm:text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
 const labelCls = 'block text-xs font-medium text-text-secondary mb-1.5'
 
 const SERVICES = ['AI Agents', 'n8n Workflows', 'RAG Systems', 'AI Systems', 'Smart Websites', 'Automations']
@@ -20,10 +22,10 @@ const BUDGETS = ['Under $1K', '$1K - $5K', '$5K - $10K', '$10K+']
 const ROLES = ['Owner', 'Manager', 'Operations', 'Technical', 'Sales', 'Marketing']
 
 const EXPECTATIONS: { icon: LucideIcon; text: string }[] = [
-  { icon: Clock,          text: 'Free 30-minute consultation' },
-  { icon: Zap,            text: 'Response within 24 hours' },
-  { icon: ClipboardList,  text: 'No-obligation project scoping' },
-  { icon: DollarSign,     text: 'Transparent pricing upfront' },
+  { icon: Clock,          text: 'A free 30-minute call' },
+  { icon: Zap,            text: 'A reply within 24 hours' },
+  { icon: ClipboardList,  text: 'A written scope, with no commitment' },
+  { icon: DollarSign,     text: 'Pricing before any work starts' },
 ]
 
 export function InquirySection() {
@@ -109,8 +111,8 @@ export function InquirySection() {
         <ScrollReveal direction="up">
           <SectionHeader
             label="Get Started"
-            title="Let's Talk About Your Project"
-            subtitle="Tell us what you're building and we'll show you how AI can accelerate it."
+            title="Tell me about your project"
+            subtitle="Describe what you're building and where it's slow. I'll tell you what I'd automate first."
             align="center"
           />
         </ScrollReveal>
@@ -129,7 +131,7 @@ export function InquirySection() {
                     {completed}<span className="text-text-muted">/{total}</span>
                   </span>
                 </div>
-                <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+                <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
                   <div
                     className="h-full rounded-full bg-gradient-to-r from-accent-cyan to-accent-purple shadow-glow-cyan transition-all duration-500"
                     style={{ width: `${progress}%` }}
@@ -160,8 +162,8 @@ export function InquirySection() {
                   <div className="space-y-2">
                     <h3 className="text-xl font-bold text-text-primary">Inquiry received</h3>
                     <p className="text-text-secondary text-sm max-w-sm leading-relaxed">
-                      {name.trim() ? `Thanks, ${name.split(' ')[0]}. ` : ''}We&apos;ll review your project
-                      details and respond within 24 hours.
+                      {name.trim() ? `Thanks, ${name.split(' ')[0]}. ` : ''}I&apos;ll read through your
+                      project details and get back to you within 24 hours.
                     </p>
                   </div>
                   <CTAButton variant="outline" onClick={resetForm} className="mt-2">
@@ -295,7 +297,7 @@ export function InquirySection() {
                     {loading ? (
                       <><Loader2 size={18} className="animate-spin" /> Sending…</>
                     ) : (
-                      <>Book Your Free Consultation <Send size={18} /></>
+                      <>Book a free call <Send size={18} /></>
                     )}
                   </CTAButton>
                 </form>

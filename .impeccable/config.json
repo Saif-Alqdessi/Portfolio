@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "linear-gradient(135deg, #f97316, #f59e0b)",
+        "files": [
+          "src/app/globals.css"
+        ],
+        "createdAt": "2026-08-23T22:23:23.123Z",
+        "reason": "pre-existing .text-gradient-cyan utility (unused anywhere in src/), only its color values were updated as part of the user's explicit site-wide accent-color rebrand request"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "src/app/api/inquiry/route.ts"
+        ],
+        "createdAt": "2026-08-23T22:25:41.387Z",
+        "reason": "pre-existing font stack in a transactional HTML email template (Resend), not touched by any recent edit; email clients don't render arbitrary web fonts so font distinctiveness doesn't apply here"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/components/sections/AboutSection.tsx"
+        ],
+        "createdAt": "2026-08-24T20:33:32.215Z",
+        "reason": "pre-existing blockquote left-accent on the pull-quote (line 92), predates this session and untouched by any of my edits; left-border accents are the conventional treatment for quoted text (WordPress/Medium/markdown default), distinct from the decorative-card-edge pattern this rule targets"
+      }
+    ]
+  }
+}

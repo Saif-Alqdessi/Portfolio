@@ -25,9 +25,9 @@ export function AdminSidebar({ userEmail }: { userEmail: string }) {
   const pathname = usePathname()
 
   return (
-    <aside className="w-56 flex-shrink-0 min-h-screen bg-bg-surface/80 border-r border-white/5 flex flex-col">
+    <aside className="w-56 flex-shrink-0 min-h-screen bg-bg-surface/80 border-r border-foreground/5 flex flex-col">
       {/* Brand */}
-      <div className="p-5 border-b border-white/5">
+      <div className="p-5 border-b border-foreground/5">
         <span className="text-accent-cyan font-bold text-sm font-mono tracking-wide">
           Admin Panel
         </span>
@@ -57,7 +57,7 @@ export function AdminSidebar({ userEmail }: { userEmail: string }) {
       </nav>
 
       {/* Logout */}
-      <div className="p-3 border-t border-white/5">
+      <div className="p-3 border-t border-foreground/5">
         <form action={signOut}>
           <button
             type="submit"

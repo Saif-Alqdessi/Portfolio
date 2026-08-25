@@ -129,7 +129,7 @@ export function ProjectForm({ project }: Props) {
     }
   }
 
-  const inputCls = 'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-white/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
+  const inputCls = 'w-full px-3 py-2.5 rounded-lg bg-bg-surface/80 border border-foreground/10 text-text-primary text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors placeholder:text-text-muted'
   const labelCls = 'block text-xs font-medium text-text-secondary mb-1.5'
 
   return (
@@ -169,7 +169,7 @@ export function ProjectForm({ project }: Props) {
           <button
             type="button"
             onClick={() => setFeatured(v => !v)}
-            className={`w-10 h-5 rounded-full transition-colors relative ${featured ? 'bg-accent-cyan' : 'bg-white/10'}`}
+            className={`w-10 h-5 rounded-full transition-colors relative ${featured ? 'bg-accent-cyan' : 'bg-foreground/10'}`}
           >
             <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform shadow-sm ${featured ? 'translate-x-5' : 'translate-x-0.5'}`} />
           </button>
@@ -186,7 +186,7 @@ export function ProjectForm({ project }: Props) {
           {imagePreview && !removeImage ? (
             <div className="relative inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imagePreview} alt="Preview" className="h-40 w-auto rounded-lg object-cover border border-white/10" />
+              <img src={imagePreview} alt="Preview" className="h-40 w-auto rounded-lg object-cover border border-foreground/10" />
               <button
                 type="button"
                 onClick={handleRemoveImage}
@@ -198,7 +198,7 @@ export function ProjectForm({ project }: Props) {
           ) : (
             <div
               onClick={() => fileRef.current?.click()}
-              className="h-28 border-2 border-dashed border-white/15 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-accent-cyan/40 transition-colors"
+              className="h-28 border-2 border-dashed border-foreground/15 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-accent-cyan/40 transition-colors"
             >
               <Upload size={20} className="text-text-muted" />
               <span className="text-text-muted text-xs">Click to upload image</span>
@@ -232,7 +232,7 @@ export function ProjectForm({ project }: Props) {
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {tags.map(tag => (
-                <span key={tag} className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-white/15 bg-bg-surface/60 text-text-secondary">
+                <span key={tag} className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-foreground/15 bg-bg-surface/60 text-text-secondary">
                   {tag}
                   <button type="button" onClick={() => setTags(t => t.filter(x => x !== tag))}>
                     <X size={11} className="text-text-muted hover:text-red-400 transition-colors" />
@@ -279,7 +279,7 @@ export function ProjectForm({ project }: Props) {
         <button
           type="button"
           onClick={() => router.push('/admin/projects')}
-          className="px-6 py-2.5 rounded-lg border border-white/10 text-text-secondary text-sm hover:bg-bg-elevated transition-colors"
+          className="px-6 py-2.5 rounded-lg border border-foreground/10 text-text-secondary text-sm hover:bg-bg-elevated transition-colors"
         >
           Cancel
         </button>

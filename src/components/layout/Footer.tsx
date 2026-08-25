@@ -1,172 +1,166 @@
 import { createClient } from '@/lib/supabase/server'
-import { Github, Linkedin, Mail, MessageCircle, Link } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { ShiningText } from '@/components/ui/shining-text'
+import { getIconComponent, normalizeUrl, platformLabel, FALLBACK_LINKS } from '@/lib/socialLinks'
+import type { SocialLink } from '@/lib/socialLinks'
 
-interface SocialLink {
-  platform: string
-  url: string
-  icon: string
-  sort_order: number
+// Next signals "this route cannot be rendered statically" by throwing an error
+// carrying this digest. Swallowing it in a catch hides that signal from the
+// framework and prints a scary-looking error on every build. Re-throw it and
+// let Next mark the route dynamic; genuine Supabase failures still fall
+// through to the fallbacks below.
+function rethrowIfDynamicServerUsage(err: unknown): void {
+  if (
+    typeof err === 'object' &&
+    err !== null &&
+    'digest' in err &&
+    (err as { digest?: unknown }).digest === 'DYNAMIC_SERVER_USAGE'
+  ) {
+    throw err
+  }
 }
 
-const FALLBACK_LINKS: SocialLink[] = [
-  { platform: 'github', url: 'https://github.com', icon: 'Github', sort_order: 0 },
-  { platform: 'linkedin', url: 'https://linkedin.com', icon: 'Linkedin', sort_order: 1 },
-  { platform: 'email', url: 'mailto:hello@example.com', icon: 'Mail', sort_order: 2 },
+const EXPLORE_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'About Me', href: '/about' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Contact Me', href: '/#contact' },
 ]
 
-const FOOTER_NAV = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Stack', href: '#stack' },
-]
-
-function getIconComponent(iconName: string, platformName: string): LucideIcon {
-  const normalizedPlatform = platformName.toLowerCase()
-  
-  // Try to use the provided icon name first
-  if (iconName) {
-    const normalizedIcon = iconName.toLowerCase()
-    if (normalizedIcon === 'github') return Github
-    if (normalizedIcon === 'linkedin') return Linkedin
-    if (normalizedIcon === 'mail') return Mail
-    if (normalizedIcon === 'messagecircle') return MessageCircle
-  }
-  
-  // Fallback by platform name
-  if (normalizedPlatform === 'github') return Github
-  if (normalizedPlatform === 'linkedin') return Linkedin
-  if (normalizedPlatform === 'email') return Mail
-  if (normalizedPlatform === 'whatsapp') return MessageCircle
-  
-  // Final fallback
-  return Link
-}
-
-function normalizeUrl(url: string, platform: string): string {
-  const normalizedPlatform = platform.toLowerCase()
-  
-  if (normalizedPlatform === 'email') {
-    const trimmedUrl = url.trim()
-    if (trimmedUrl.toLowerCase().startsWith('mailto:')) {
-      return trimmedUrl
-    }
-    // Check if it looks like an email (contains @ and no scheme)
-    if (trimmedUrl.includes('@') && !trimmedUrl.includes('://')) {
-      return `mailto:${trimmedUrl}`
-    }
-    return `mailto:${trimmedUrl}`
-  }
-  
-  if (normalizedPlatform === 'whatsapp') {
-    if (url.startsWith('+')) {
-      const digits = url.replace(/\D/g, '')
-      return `https://wa.me/${digits}`
-    }
-    if (url.startsWith('https://wa.me/')) {
-      return url
-    }
-    const digits = url.replace(/\D/g, '')
-    return `https://wa.me/${digits}`
-  }
-  
-  return url
-}
+// Kept to just the professional network — this footer is read by recruiters
+// and technical visitors closing out the page, not the full personal set
+// shown on the About page.
+const CONNECT_PLATFORMS = ['linkedin', 'github']
 
 export async function Footer() {
   let name = 'Saif Alqdessi'
-  let tagline = 'AI Engineer & Systems Architect'
   let links: SocialLink[] = FALLBACK_LINKS
 
   try {
     const supabase = await createClient()
-    
-    const { data: profile } = await supabase
-      .from('profile')
-      .select('name, tagline')
-      .single() as any
-    
+
+    const { data: profile } = (await supabase.from('profile').select('name').single()) as any
     if (profile?.name) name = profile.name
-    if (profile?.tagline) tagline = profile.tagline
 
     const { data: socialLinks, error } = await supabase
       .from('links')
       .select('*')
       .order('platform', { ascending: true })
-    
+
     if (error) {
       console.error('Failed to fetch social links from Supabase:', error)
     } else if (socialLinks && socialLinks.length > 0) {
       links = socialLinks as SocialLink[]
     }
   } catch (err) {
+    rethrowIfDynamicServerUsage(err)
     console.error('Error fetching footer data:', err)
   }
 
+  const connectLinks = links.filter((l) => CONNECT_PLATFORMS.includes(l.platform.toLowerCase()))
+  const year = new Date().getFullYear()
+
   return (
-    <footer id="contact" className="py-16 sm:py-20 border-t border-white/5">
-      <div className="max-w-6xl mx-auto px-6">
-        
-        <div className="flex flex-col items-center text-center space-y-8">
-          
-          {/* Name & tagline */}
-          <div className="space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-bold text-text-primary">
-              {name}
-            </h2>
-            <p className="text-text-secondary text-base">
-              {tagline}
-            </p>
-          </div>
+    <footer id="contact" className="w-full border-t border-foreground/10 bg-surface">
+      <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20 md:px-10">
+        <ScrollReveal direction="up">
+          <div className="grid gap-12 md:grid-cols-[1.4fr_auto_auto] md:gap-16">
+            {/* Sign-off */}
+            <div className="flex flex-col items-start gap-4">
+              <h2 className="text-4xl font-bold leading-tight tracking-tight text-text-primary md:text-5xl">
+                Let&apos;s build together.
+              </h2>
 
-          {/* Social links */}
-          <div className="flex items-center gap-6">
-            {links.map((link) => {
-              const normalizedPlatform = link.platform.toLowerCase()
-              const Icon = getIconComponent(link.icon, link.platform)
-              const isEmail = normalizedPlatform === 'email'
-              const href = normalizeUrl(link.url, link.platform)
-              
-              return (
-                <a
-                  key={link.platform}
-                  href={href}
-                  target={isEmail ? undefined : '_blank'}
-                  rel={isEmail ? undefined : 'noreferrer'}
-                  className="group flex items-center justify-center w-12 h-12 rounded-full border border-white/10 bg-bg-surface/60 hover:border-accent-cyan/50 hover:bg-accent-cyan/5 transition-all duration-300"
-                >
-                  <Icon 
-                    size={18} 
-                    className="text-text-muted group-hover:text-accent-cyan transition-colors" 
-                  />
-                </a>
-              )
-            })}
-          </div>
+              <ShiningText
+                text="Open to AI Engineer roles, Amman or remote."
+                className="text-sm font-medium sm:text-base"
+              />
 
-          {/* Footer nav */}
-          <nav className="flex items-center gap-8">
-            {FOOTER_NAV.map((item) => (
               <a
-                key={item.label}
-                href={item.href}
-                className="text-sm text-text-muted hover:text-accent-cyan transition-colors"
+                href="#get-started"
+                className="group mt-2 inline-flex items-center gap-2 rounded-full bg-accent-purple px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors duration-200 hover:bg-accent-purple-dim"
               >
-                {item.label}
+                Start a project
+                <ArrowUpRight
+                  size={16}
+                  strokeWidth={2.5}
+                  className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </a>
-            ))}
-          </nav>
+            </div>
 
-          {/* Copyright */}
-          <div className="pt-6 border-t border-white/5 w-full">
-            <p className="text-xs text-text-muted">
-              © {new Date().getFullYear()} {name}. Built with Next.js & Supabase.
-            </p>
+            {/* Explore + Connect sit side by side on phones instead of
+                stacking into one tall column. `md:contents` dissolves this
+                wrapper at desktop so both columns become direct children of
+                the outer 3-column grid again. */}
+            <div className="grid grid-cols-2 gap-8 md:contents">
+
+            {/* Explore */}
+            <div>
+              <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-text-muted">
+                Explore
+              </p>
+              <ul className="space-y-3">
+                {EXPLORE_LINKS.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      className="-mx-2 inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center px-2 text-sm text-text-secondary transition-colors hover:text-accent-purple sm:mx-0 sm:min-h-0 sm:min-w-0 sm:px-0"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-text-muted">
+                Connect
+              </p>
+              <ul className="space-y-3">
+                {connectLinks.map((link) => {
+                  const Icon = getIconComponent(link.icon, link.platform)
+                  const href = normalizeUrl(link.url, link.platform)
+                  return (
+                    <li key={link.platform}>
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group inline-flex min-h-[2.75rem] items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent-purple sm:min-h-0"
+                      >
+                        <Icon size={15} strokeWidth={1.75} />
+                        {platformLabel(link.platform)}
+                        <ArrowUpRight
+                          size={12}
+                          className="opacity-0 transition-opacity group-hover:opacity-100"
+                        />
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+
+            </div>
           </div>
+        </ScrollReveal>
 
+        {/* Identity + copyright */}
+        <div className="mt-16 flex flex-col gap-3 border-t border-foreground/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-text-secondary">
+            <span className="font-semibold text-text-primary">{name}</span>
+            <span className="text-text-muted">, AI Engineer</span>
+          </p>
+          <p className="font-mono text-xs text-text-muted">
+            © {year} {name} • Built and maintained by me
+          </p>
         </div>
       </div>
     </footer>
   )
 }
-

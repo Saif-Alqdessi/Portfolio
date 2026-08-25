@@ -33,14 +33,14 @@ export function SkillsClient({ skills }: Props) {
   return (
     <>
       {skills.map((skill) => (
-        <tr key={skill.id} className="hover:bg-white/5 transition-colors">
+        <tr key={skill.id} className="hover:bg-foreground/5 transition-colors">
           <td className="px-4 py-3">
             <span className="text-text-primary text-sm font-medium">{skill.category}</span>
           </td>
           <td className="px-4 py-3">
             <div className="flex flex-wrap gap-1 max-w-md">
               {skill.items.slice(0, 3).map((item, i) => (
-                <span key={i} className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-xs text-text-secondary">
+                <span key={i} className="px-2 py-0.5 bg-foreground/5 border border-foreground/10 rounded text-xs text-text-secondary">
                   {item}
                 </span>
               ))}
@@ -60,7 +60,7 @@ export function SkillsClient({ skills }: Props) {
               <button
                 onClick={() => handleDelete(skill.id)}
                 disabled={deleting === skill.id}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-text-secondary border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-text-secondary border border-foreground/10 bg-foreground/5 hover:bg-foreground/10 disabled:opacity-50 transition-colors"
               >
                 <Trash2 size={12} />
                 {deleting === skill.id ? 'Deleting...' : 'Delete'}

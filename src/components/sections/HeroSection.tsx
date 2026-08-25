@@ -1,25 +1,27 @@
 import { createClient } from '@/lib/supabase/server'
-import { Brain, Download, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import type { Database } from '@/lib/supabase/types'
-import { HeroRoles } from './HeroRoles'
+import { AnimatedRoles } from '@/components/ui/animated-roles'
+import { ShiningText } from '@/components/ui/shining-text'
 
 type TitleRow = Database['public']['Tables']['titles']['Row']
 type ProfileRow = Database['public']['Tables']['profile']['Row']
 
 const FALLBACK_TITLES = [
-  'AI Systems Engineer',
-  'Agent Engineer',
-  'ML Engineer',
-  'RAG & LLM Apps',
-  'Automation & Workflows',
+  'Autonomous AI Agents',
+  'Automated Workflows',
+  'Full-Stack Web Apps',
+  'Custom AI Chatbots',
+  'Business AI Assistants',
 ]
-const FALLBACK_BIO =
-  'Building autonomous AI solutions, intelligent agents, and scalable architectures that transform how businesses operate.'
+// The Hero shows profile.summary (the pitch aimed at the visitor), NOT
+// profile.bio, which is the About page's first-person biography.
+const FALLBACK_PITCH =
+  "I turn operational bottlenecks into autonomous AI systems that handle the busywork, so you don't have to."
 
 export async function HeroSection() {
   let titles = FALLBACK_TITLES
-  let bio = FALLBACK_BIO
+  let pitch = FALLBACK_PITCH
 
   try {
     const supabase = await createClient()
@@ -34,92 +36,70 @@ export async function HeroSection() {
       titles = titleRows.map((t) => t.title)
     }
     if (profile?.summary) {
-      bio = profile.summary
+      pitch = profile.summary
     }
   } catch {
     // fallbacks active
   }
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-    >
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl mx-auto animate-fade-up space-y-8">
-
-        {/* Top icon badge */}
-        <div className="relative flex items-center justify-center">
-          {/* Outer glow */}
-          <div
-            className="absolute w-24 h-24 rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(6,182,212,0.30) 0%, transparent 70%)',
-              filter: 'blur(14px)',
-            }}
+    <section id="hero" className="relative h-screen w-full overflow-hidden border-b border-white/10 bg-[#050505] text-white p-0 m-0">
+      {/* Background photo — full-bleed, full opacity, no fade. The Hero is
+          a fixed dark cinematic canvas independent of the site's light/dark
+          toggle (its text is already hardcoded white for the same reason),
+          so the dark photo sits on a dark section background with nothing
+          to fade into — no mask, no gradient, no compositing math that can
+          produce a grey transition zone. The border-b above is the only,
+          deliberate seam into the next (theme-aware) section. */}
+      {/* Art direction, not one image scaled two ways. The landscape source is
+          2.06:1, so a portrait phone crops it to a sliver and cuts the subject
+          in half. Under 768px the browser fetches a portrait crop instead.
+          Plain <picture> rather than next/image because next/image cannot swap
+          sources per breakpoint, and hiding a second <Image> with CSS still
+          downloads it (1.6MB) on mobile. WebP first, PNG as fallback. */}
+      <div className="absolute -inset-[2px] pointer-events-none">
+        <picture>
+          <source media="(max-width: 767px)" srcSet="/img/HeroSec-portrait.webp" type="image/webp" />
+          <source media="(max-width: 767px)" srcSet="/img/HeroSec-portrait.png" type="image/png" />
+          <source srcSet="/img/HeroSec.webp" type="image/webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/img/HeroSec.png"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            /* The portrait source sits the subject at ~65% across, so plain
+               object-center pushes the face to ~78% of a 375px viewport.
+               80% recentres it to ~53%, keeping looking-room on the left. */
+            className="h-full w-full object-cover object-[80%_center] md:object-[center_75%]"
           />
-          <div className="relative w-16 h-16 rounded-full flex items-center justify-center border border-accent-cyan/30 bg-bg-surface/80 backdrop-blur-md">
-            <Brain size={30} className="text-accent-cyan" strokeWidth={1.5} />
-          </div>
-        </div>
-
-        {/* Main heading */}
-        <div className="space-y-5">
-          <h1
-            className="font-bold leading-tight tracking-tight"
-            style={{
-              fontSize: 'clamp(2.8rem, 8vw, 5rem)',
-              background: 'linear-gradient(135deg, #f8fafc 30%, #22d3ee 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 28px rgba(6,182,212,0.30))',
-            }}
-          >
-            Hi, I&apos;m Saif
-          </h1>
-
-          {/* Animated roles */}
-          <HeroRoles roles={titles} />
-        </div>
-
-        {/* Description */}
-        <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-          {bio}
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-          {/* Primary — cyan glow */}
-          <a
-            href="/cv.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl font-semibold text-sm text-bg-base transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-              boxShadow: '0 0 24px rgba(6,182,212,0.40), 0 4px 16px rgba(0,0,0,0.4)',
-            }}
-          >
-            <Download size={15} />
-            Download CV
-          </a>
-
-          {/* Secondary — glass */}
-          <Link
-            href="#contact"
-            className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl font-semibold text-sm text-text-secondary border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-200 hover:bg-white/10 hover:text-text-primary hover:border-accent-cyan/30 hover:scale-105 active:scale-95"
-          >
-            Contact Me
-            <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-          </Link>
-        </div>
+        </picture>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 hover:opacity-60 transition-opacity">
-        <span className="text-[10px] font-mono text-text-muted tracking-[0.3em] uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-accent-cyan/60 to-transparent" />
+      {/* Hook + CTA — the only width-constrained layer on this section */}
+      {/* On phones the portrait crop puts the face in the upper half, so the
+          copy sits low rather than centred over it. */}
+      <div className="relative z-10 flex h-full w-full flex-col justify-end px-6 pb-20 sm:justify-start sm:pb-0 sm:pt-[38vh]">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="max-w-md space-y-4 sm:max-w-lg">
+            <AnimatedRoles roles={titles} />
+
+            <ShiningText
+              text={pitch}
+              className="text-lg font-medium leading-snug [text-shadow:0_2px_20px_rgba(0,0,0,0.5)] sm:text-xl"
+            />
+
+            <a
+              href="#get-started"
+              className="group inline-flex items-center gap-3 rounded-full border border-white/30 py-2 pl-6 pr-2 text-sm font-semibold text-white backdrop-blur-sm transition-colors duration-200 hover:border-accent-cyan/70"
+            >
+              Start Your Project
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-bg-base transition-transform duration-200 group-hover:rotate-45">
+                <ArrowUpRight size={16} strokeWidth={2.5} />
+              </span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -72,7 +72,7 @@ export default async function AdminProjectsPage() {
                       .sort((a, b) => a.sort_order - b.sort_order)
                       .slice(0, 5)
                       .map(t => (
-                        <span key={t.name} className="text-[10px] px-1.5 py-0.5 rounded border border-white/10 text-text-muted bg-bg-surface/60">
+                        <span key={t.name} className="text-[10px] px-1.5 py-0.5 rounded border border-foreground/10 text-text-muted bg-bg-surface/60">
                           {t.name}
                         </span>
                       ))}
@@ -87,7 +87,7 @@ export default async function AdminProjectsPage() {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <Link
                   href={`/admin/projects/${project.id}`}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-text-secondary border border-white/10 hover:bg-bg-elevated transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-text-secondary border border-foreground/10 hover:bg-bg-elevated transition-colors"
                 >
                   <Pencil size={12} />
                   Edit

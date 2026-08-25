@@ -64,6 +64,7 @@ export type Database = {
       }
       profile: {
         Row: {
+          bio: string | null
           cv_url: string | null
           email: string | null
           highlights: Json
@@ -77,6 +78,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          bio?: string | null
           cv_url?: string | null
           email?: string | null
           highlights?: Json
@@ -90,6 +92,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          bio?: string | null
           cv_url?: string | null
           email?: string | null
           highlights?: Json
@@ -178,6 +181,7 @@ export type Database = {
           icon: string
           id: string
           sort_order: number
+          tech: string[] | null
           title: string
         }
         Insert: {
@@ -185,6 +189,7 @@ export type Database = {
           icon?: string
           id?: string
           sort_order?: number
+          tech?: string[] | null
           title: string
         }
         Update: {
@@ -192,6 +197,7 @@ export type Database = {
           icon?: string
           id?: string
           sort_order?: number
+          tech?: string[] | null
           title?: string
         }
         Relationships: []

@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { BackgroundBlobs } from '@/components/layout/BackgroundBlobs'
 import { Footer } from '@/components/layout/Footer'
+import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 const inter = Inter({
@@ -20,10 +21,10 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Saif Alqdessi – AI Engineer',
   description:
-    'AI Systems & Agent Engineer building autonomous AI solutions, intelligent agents, and scalable architectures.',
+    'AI systems and agent engineer. I build autonomous agents, RAG pipelines, and the backends that run them in production.',
   openGraph: {
     title: 'Saif Alqdessi – AI Engineer',
-    description: 'AI Systems & Agent Engineer building autonomous AI solutions.',
+    description: 'I build autonomous AI agents, RAG pipelines, and the backends that run them.',
     type: 'website',
   },
 }
@@ -34,12 +35,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-bg-base text-text-primary font-sans antialiased">
-        <BackgroundBlobs />
-        <Navbar />
-        {children}
-        <Footer />
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="w-full overflow-x-hidden bg-bg-base text-text-primary font-sans antialiased">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          <BackgroundBlobs />
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   )

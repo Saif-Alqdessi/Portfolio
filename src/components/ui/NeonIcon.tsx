@@ -13,7 +13,7 @@ export function NeonIcon({ icon: Icon, size = 'md', color = 'cyan', className }:
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-xl border border-white/10 transition-all duration-300',
+        'flex items-center justify-center rounded-xl border border-foreground/10 transition-all duration-300',
         size === 'sm' ? 'w-8 h-8' : 'w-10 h-10',
         color === 'cyan'
           ? 'text-accent-cyan bg-accent-cyan-glow hover:shadow-glow-cyan'
