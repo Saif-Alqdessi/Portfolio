@@ -2,6 +2,7 @@ import { EventFlowVisual } from './EventFlowVisual'
 import { HrInterviewerVisual } from './HrInterviewerVisual'
 import { FinancialVisual } from './FinancialVisual'
 import { TicketingVisual } from './TicketingVisual'
+import { InstallmentVisual } from './InstallmentVisual'
 import type { VisualProps } from './shared'
 
 type VisualComponent = (props: VisualProps) => React.ReactElement
@@ -14,6 +15,7 @@ const VISUAL_MATCHERS: { keywords: string[]; Component: VisualComponent }[] = [
   { keywords: ['hr interviewer', 'agentic hr'], Component: HrInterviewerVisual },
   { keywords: ['financial portfolio', 'portfolio manager'], Component: FinancialVisual },
   { keywords: ['ticketing', 'verification'], Component: TicketingVisual },
+  { keywords: ['installment', 'subscription dashboard'], Component: InstallmentVisual },
 ]
 
 export function getProjectVisual(title: string): VisualComponent | null {
